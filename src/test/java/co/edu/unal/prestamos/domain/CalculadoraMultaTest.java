@@ -38,4 +38,22 @@ class CalculadoraMultaTest {
         // Assert
         assertEquals(2_000, multa);
     }
+
+    @Test
+    void calcular_veinticincoDiasDeRetraso_cobraJustoElTope() {
+        // Act
+        int multa = calculadora.calcular(LIMITE, LIMITE.plusDays(25), false);
+
+        // Assert
+        assertEquals(50_000, multa);
+    }
+
+    @Test
+    void calcular_cuarentaDiasDeRetraso_noPasaDelTope() {
+        // Act
+        int multa = calculadora.calcular(LIMITE, LIMITE.plusDays(40), false);
+
+        // Assert
+        assertEquals(50_000, multa);
+    }
 }
