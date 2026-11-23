@@ -20,4 +20,28 @@ class CalculadoraMultaTest {
         // Assert
         assertEquals(0, multa);
     }
+
+    @Test
+    void calcular_devueltoElDiaLimite_noHayMulta() {
+        // Arrange
+        CalculadoraMulta calculadora = new CalculadoraMulta();
+
+        // Act
+        int multa = calculadora.calcular(LIMITE, LIMITE, false);
+
+        // Assert
+        assertEquals(0, multa);
+    }
+
+    @Test
+    void calcular_unDiaDeRetraso_cobraDosMil() {
+        // Arrange
+        CalculadoraMulta calculadora = new CalculadoraMulta();
+
+        // Act
+        int multa = calculadora.calcular(LIMITE, LIMITE.plusDays(1), false);
+
+        // Assert
+        assertEquals(2_000, multa);
+    }
 }
