@@ -56,6 +56,7 @@ class SolicitarPrestamoIntegracionTest {
         assertEquals(1, guardados.size());
         assertEquals(p, guardados.get(0));
         assertEquals(1, p.getId());
+        assertEquals("1023", p.getEstudianteId());
         assertEquals(12, p.getEquipoId());
         assertEquals(EstadoPrestamo.PENDIENTE, p.getEstado());
         verify(notificador).notificar("1023", "Solicitud 1 registrada");

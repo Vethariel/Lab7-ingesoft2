@@ -2,11 +2,13 @@ package co.edu.unal.prestamos.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import co.edu.unal.prestamos.domain.ServicioNoDisponible;
 import java.io.IOException;
+import java.net.ConnectException;
 import mockwebserver3.MockResponse;
 import mockwebserver3.MockWebServer;
 import mockwebserver3.RecordedRequest;
@@ -90,5 +92,18 @@ class DisponibilidadEquiposHttpTest {
 
         // Assert
         assertEquals("HTTP 500", error.getMessage());
+    }
+
+    @Test
+    void estaDisponible_servidorApagado_lanzaServicioNoDisponibleConElErrorDeRed() {
+        // Arrange: el servidor se apaga, así que la conexión es rechazada
+        servidor.close();
+
+        // Act
+        ServicioNoDisponible error = assertThrows(ServicioNoDisponible.class,
+                () -> adaptador.estaDisponible(12));
+
+        // Assert
+        assertInstanceOf(ConnectException.class, error.getCause());
     }
 }
