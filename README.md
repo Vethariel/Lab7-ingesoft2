@@ -40,6 +40,8 @@ mvn test -Dtest='co.edu.unal.prestamos.data.**'
 mvn verify
 ```
 
+`mvn verify` también comprueba las metas de cobertura de líneas: al menos 90 % en `domain` y 80 % en `data`. Si alguna no se cumple, la construcción falla; si se cumplen, imprime `All coverage checks have been met.`
+
 El reporte de cobertura queda en `target/site/jacoco/index.html`. Para abrirlo:
 
 ```bash
