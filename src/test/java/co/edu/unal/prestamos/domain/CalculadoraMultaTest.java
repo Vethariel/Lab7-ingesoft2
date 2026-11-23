@@ -9,11 +9,11 @@ class CalculadoraMultaTest {
 
     private static final LocalDate LIMITE = LocalDate.of(2026, 11, 25);
 
+    // Arrange común: la calculadora no guarda estado, así que todas las pruebas comparten una
+    private final CalculadoraMulta calculadora = new CalculadoraMulta();
+
     @Test
     void calcular_devueltoAntesDelLimite_noHayMulta() {
-        // Arrange
-        CalculadoraMulta calculadora = new CalculadoraMulta();
-
         // Act
         int multa = calculadora.calcular(LIMITE, LIMITE.minusDays(1), false);
 
@@ -23,9 +23,6 @@ class CalculadoraMultaTest {
 
     @Test
     void calcular_devueltoElDiaLimite_noHayMulta() {
-        // Arrange
-        CalculadoraMulta calculadora = new CalculadoraMulta();
-
         // Act
         int multa = calculadora.calcular(LIMITE, LIMITE, false);
 
@@ -35,9 +32,6 @@ class CalculadoraMultaTest {
 
     @Test
     void calcular_unDiaDeRetraso_cobraDosMil() {
-        // Arrange
-        CalculadoraMulta calculadora = new CalculadoraMulta();
-
         // Act
         int multa = calculadora.calcular(LIMITE, LIMITE.plusDays(1), false);
 
