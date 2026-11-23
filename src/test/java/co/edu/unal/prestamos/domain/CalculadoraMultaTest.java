@@ -56,4 +56,22 @@ class CalculadoraMultaTest {
         // Assert
         assertEquals(50_000, multa);
     }
+
+    @Test
+    void calcular_monitorConTresDiasDeRetraso_pagaLaMitad() {
+        // Act
+        int multa = calculadora.calcular(LIMITE, LIMITE.plusDays(3), true);
+
+        // Assert
+        assertEquals(3_000, multa);
+    }
+
+    @Test
+    void calcular_monitorConCuarentaDiasDeRetraso_pagaLaMitadDelTope() {
+        // Act
+        int multa = calculadora.calcular(LIMITE, LIMITE.plusDays(40), true);
+
+        // Assert
+        assertEquals(25_000, multa);
+    }
 }
