@@ -7,12 +7,13 @@ import java.time.temporal.ChronoUnit;
 public class CalculadoraMulta {
 
     static final int MULTA_POR_DIA = 2_000;
+    static final int MULTA_MAXIMA = 50_000;
 
     public int calcular(LocalDate fechaLimite, LocalDate fechaDevolucion, boolean esMonitor) {
         long diasDeRetraso = ChronoUnit.DAYS.between(fechaLimite, fechaDevolucion);
         if (diasDeRetraso <= 0) {
             return 0;
         }
-        return (int) Math.min(diasDeRetraso * MULTA_POR_DIA, 50000);
+        return (int) Math.min(diasDeRetraso * MULTA_POR_DIA, MULTA_MAXIMA);
     }
 }
