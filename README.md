@@ -33,6 +33,9 @@ mvn test
 # Una sola clase de prueba
 mvn test -Dtest=PrestamoTest
 
+# Solo las pruebas de integración de data
+mvn test -Dtest='co.edu.unal.prestamos.data.**'
+
 # Pruebas y reporte de cobertura
 mvn verify
 ```
