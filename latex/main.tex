@@ -91,9 +91,11 @@ El stack es Java con Maven, así que, frente a los ejemplos con Gradle del enunc
 
 \evidencia{E1}{Repositorio público con el código, el README y el historial}{0,15}
 
-\captura{e1-a-repositorio.png}{E1 (a). El repositorio público \texttt{Lab7-ingesoft2} con el código y el \texttt{README}.}
+\captura{e1-a-repositorio.png}{E1 (a). El repositorio público \texttt{Lab7-ingesoft2}: el proyecto (\texttt{pom.xml} y \texttt{src/}) en la raíz, junto al informe, con 21 commits.}
 
-\captura{e1-b-historial.png}{E1 (b). El historial de commits del Laboratorio 6, incluidos los de cada ciclo de TDD.}
+\captura{e1-b-readme.png}{E1 (b). El \texttt{README}, que describe el proyecto \texttt{Prestamos-00} y el contenido del repositorio.}
+
+\captura{e1-c-historial.png}{E1 (c). El historial de commits del Laboratorio 6, con los commits rojo, verde y refactor de cada ciclo de TDD.}
 
 \evidencia{E2}{Comando único de pruebas en local}{0,15}
 
@@ -107,11 +109,15 @@ El stack es Java con Maven, así que, frente a los ejemplos con Gradle del enunc
 
 \evidencia{E4}{Ejecución en verde con el log de las pruebas}{0,4}
 
-\captura{e4-ejecucion-verde.png}{E4. La ejecución en la pestaña Actions, con los pasos desplegados y el log de las pruebas.}
+La ejecución \#1 del workflow \texttt{CI} corrió el job \texttt{test} en 24~s. El paso \emph{Ejecutar las pruebas} reporta \texttt{Tests run: 23, Failures: 0, Errors: 0, Skipped: 0}, es decir, las mismas 23 pruebas que en local; después, JaCoCo confirma las metas de cobertura y Maven termina con \texttt{BUILD SUCCESS}.
+
+\captura{e4-a-pasos.png}{E4 (a). La ejecución en verde en la pestaña Actions, con los pasos del job \texttt{test}.}
+
+\captura{e4-b-log.png}{E4 (b). El log del paso de pruebas: \texttt{Tests run: 23, Failures: 0} y \texttt{BUILD SUCCESS}.}
 
 \evidencia{E5}{Insignia en el README y diferencia entre local y runner}{0,3}
 
-\captura{e5-insignia.png}{E5. La insignia de CI en verde al inicio del \texttt{README}.}
+\captura{e5-insignia.png}{E5. La insignia de CI en verde (\emph{passing}) al inicio del \texttt{README}.}
 
 \textbf{¿Qué diferencia hay entre ejecutar las pruebas en el computador y en el runner?}
 
