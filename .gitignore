@@ -1,0 +1,19 @@
+# Sistema
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Secretos y entornos locales
+.env
+.env.*
+!.env.example
+
+# Editores
+.idea/
+.vscode/
+*.iml
+
+# Java / Maven
+target/
+*.class

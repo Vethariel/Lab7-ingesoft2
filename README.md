@@ -24,10 +24,14 @@ Préstamo de equipos del laboratorio: el agregado `Prestamo`, la `CalculadoraMul
 
 ## Comandos
 
-Desde esta carpeta (`Prestamos-00/`). La primera ejecución descarga las dependencias.
+Desde la raíz del repositorio. La primera ejecución descarga las dependencias.
 
 ```bash
-# Todas las pruebas
+# Comando único: todas las pruebas, el reporte de cobertura y sus metas.
+# Es el mismo que ejecuta el pipeline de integración continua.
+mvn -B verify
+
+# Solo las pruebas, sin cobertura
 mvn test
 
 # Una sola clase de prueba
@@ -35,12 +39,9 @@ mvn test -Dtest=PrestamoTest
 
 # Solo las pruebas de integración de data
 mvn test -Dtest='co.edu.unal.prestamos.data.**'
-
-# Pruebas y reporte de cobertura
-mvn verify
 ```
 
-`mvn verify` también comprueba las metas de cobertura de líneas: al menos 90 % en `domain` y 80 % en `data`. Si alguna no se cumple, la construcción falla; si se cumplen, imprime `All coverage checks have been met.`
+`mvn -B verify` también comprueba las metas de cobertura de líneas: al menos 90 % en `domain` y 80 % en `data`. Si alguna no se cumple, la construcción falla; si se cumplen, imprime `All coverage checks have been met.`
 
 El reporte de cobertura queda en `target/site/jacoco/index.html`. Para abrirlo:
 
