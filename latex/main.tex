@@ -115,7 +115,14 @@ El stack es Java con Maven, así que, frente a los ejemplos con Gradle del enunc
 
 \textbf{¿Qué diferencia hay entre ejecutar las pruebas en el computador y en el runner?}
 
-% TODO(Parte 1c): respuesta.
+En el computador, las pruebas corren en un entorno que se ha ido acumulando con el tiempo: un JDK concreto, la caché de Maven en \texttt{\textasciitilde/.m2}, la carpeta \texttt{target/} de compilaciones anteriores y archivos que quizá nunca entraron a Git. Además, dependen de que alguien se acuerde de ejecutarlas. El runner, en cambio, es una máquina nueva en cada ejecución: parte solo de lo que está en el commit, instala el JDK que dice el workflow, descarga las dependencias desde cero y corre siempre, en cada push y en cada pull request, con un resultado que todo el equipo ve. Por eso el runner detecta problemas que en el computador pasan desapercibidos:
+
+\begin{itemize}
+  \item \textbf{Archivos que no están en el repositorio.} Si una clase o un recurso de prueba existe en el disco pero no se agregó al commit, en local todo compila y en el runner falla. En este mismo proyecto, la carpeta \texttt{target/} local todavía conservaba el reporte de \texttt{EntornoTest}, una prueba que se había borrado en el Laboratorio 6; el runner nunca ve esos restos, porque compila desde cero.
+  \item \textbf{Una versión distinta del entorno.} En el computador está instalado el JDK 25, mientras que el pipeline usa el 21 y, desde la Parte 4, también el 17, que es la versión mínima que declara el \texttt{pom.xml}. Si el código usara una API posterior a Java 17, en local no se notaría y en el runner sí.
+  \item \textbf{Dependencias implícitas del sistema.} El runner es Linux con una configuración estándar, así que falla si las pruebas dependen de la zona horaria, del idioma, de rutas absolutas o de un servicio que solo existe en el computador de quien las escribió. Las pruebas de este proyecto usan una fecha fija y un servidor HTTP local (MockWebServer), y por eso dan el mismo resultado en los dos lados.
+  \item \textbf{Cambios que nadie probó.} En local, un cambio se puede integrar sin haber ejecutado las pruebas. El runner, en cambio, las ejecuta en cada push y en cada pull request, y deja el resultado a la vista en el commit y en la insignia del \texttt{README}.
+\end{itemize}
 
 \section*{Parte 2. Romper y arreglar a través de un pull request}
 

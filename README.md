@@ -1,3 +1,5 @@
+[![CI](https://github.com/Vethariel/Lab7-ingesoft2/actions/workflows/ci.yml/badge.svg)](https://github.com/Vethariel/Lab7-ingesoft2/actions/workflows/ci.yml)
+
 # Laboratorio 7: CI/CD con GitHub Actions
 
 Integración continua, puertas de calidad y entrega continua sobre `Prestamos-00`, el proyecto del Laboratorio 6. Ingeniería de Software II (2016702), Universidad Nacional de Colombia, 2026-II.
@@ -9,7 +11,7 @@ Integración continua, puertas de calidad y entrega continua sobre `Prestamos-00
 | Ruta | Qué es |
 | --- | --- |
 | [pom.xml](pom.xml) y [src/](src/) | El proyecto Maven `Prestamos-00` y sus pruebas |
-| [.github/workflows/](.github/workflows/) | Los pipelines de GitHub Actions |
+| [.github/workflows/ci.yml](.github/workflows/ci.yml) | El pipeline de integración continua: ejecuta `mvn -B verify` en cada push a `main` y en cada pull request |
 | [docs/informe.pdf](docs/informe.pdf) | El informe, con las evidencias E1 a E20 |
 | [latex/](latex/) | La fuente del informe y sus capturas |
 
