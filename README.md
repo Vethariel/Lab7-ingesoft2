@@ -1,6 +1,17 @@
-# Prestamos-00
+# Laboratorio 7: CI/CD con GitHub Actions
 
-Préstamo de equipos del laboratorio: el agregado `Prestamo`, la `CalculadoraMulta`, el caso de uso `SolicitarPrestamo` y el adaptador HTTP de disponibilidad, con sus pruebas unitarias, de dobles, de integración y su cobertura. Laboratorio 6 de Ingeniería de Software II (2016702), Universidad Nacional de Colombia, 2026-II.
+Integración continua, puertas de calidad y entrega continua sobre `Prestamos-00`, el proyecto del Laboratorio 6. Ingeniería de Software II (2016702), Universidad Nacional de Colombia, 2026-II.
+
+`Prestamos-00` es el préstamo de equipos del laboratorio: el agregado `Prestamo`, la `CalculadoraMulta`, el caso de uso `SolicitarPrestamo` y el adaptador HTTP de disponibilidad, con sus pruebas unitarias, de dobles, de integración y su cobertura. El historial de commits del Laboratorio 6, incluidos los de cada ciclo de TDD, sigue en este repositorio.
+
+## Qué hay en el repositorio
+
+| Ruta | Qué es |
+| --- | --- |
+| [pom.xml](pom.xml) y [src/](src/) | El proyecto Maven `Prestamos-00` y sus pruebas |
+| [.github/workflows/](.github/workflows/) | Los pipelines de GitHub Actions |
+| [docs/informe.pdf](docs/informe.pdf) | El informe, con las evidencias E1 a E20 |
+| [latex/](latex/) | La fuente del informe y sus capturas |
 
 ## Stack
 
@@ -13,7 +24,7 @@ Préstamo de equipos del laboratorio: el agregado `Prestamo`, la `CalculadoraMul
 | (4) Servidor HTTP de prueba | MockWebServer (OkHttp) | 5.3.0 |
 | (5) Cobertura | JaCoCo | 0.8.14 |
 
-## Estructura
+## Estructura del proyecto
 
 | Ruta | Qué es |
 | --- | --- |
@@ -48,3 +59,14 @@ El reporte de cobertura queda en `target/site/jacoco/index.html`. Para abrirlo:
 ```bash
 xdg-open target/site/jacoco/index.html
 ```
+
+## Informe
+
+La fuente está en [latex/main.tex](latex/main.tex) y se compila con LuaLaTeX. El PDF queda en [docs/informe.pdf](docs/informe.pdf):
+
+```bash
+cd latex
+latexmk
+```
+
+Las capturas van en `latex/capturas/`. Mientras falta una, el PDF muestra un recuadro con su nombre. latexmk no detecta que llegó una captura nueva, así que en ese caso hay que forzar la compilación con `latexmk -g`.

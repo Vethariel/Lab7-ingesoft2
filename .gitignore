@@ -17,3 +17,20 @@ Thumbs.db
 # Java / Maven
 target/
 *.class
+
+# Enunciado del laboratorio: se queda en local
+/Laboratorio7 CICD.pdf
+/enunciado.txt
+
+# PDFs. El único que entra al repositorio es el informe compilado.
+*.pdf
+!/docs/informe.pdf
+
+# Restos de compilación de LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz

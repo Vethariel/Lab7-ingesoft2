@@ -1,0 +1,204 @@
+\documentclass[11pt]{article}
+
+\usepackage{fontspec}
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{longtable}
+\usepackage{xcolor}
+
+\setmainfont{Latin Modern Roman}
+\setmonofont{Latin Modern Mono}
+\setlength{\emergencystretch}{4em}
+% Permite cortar línea después de un guion bajo
+\let\guionbajo\_
+\renewcommand{\_}{\guionbajo\allowbreak}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=true,
+  frame=single,
+  framesep=4pt,
+  xleftmargin=6pt,
+  xrightmargin=6pt,
+  inputencoding=utf8,
+  extendedchars=true,
+  literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1
+}
+
+% Captura: usa capturas/#1 si existe; si no, deja el recuadro
+\graphicspath{{capturas/}}
+\newcommand{\captura}[2]{%
+  \begin{center}
+  \IfFileExists{capturas/#1}%
+    {\includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{#1}}%
+    {\fbox{\parbox[c][3cm][c]{0.9\linewidth}{\centering\small Captura pendiente: \texttt{capturas/#1}}}}\\[0.6em]
+  {\small #2}
+  \end{center}}
+
+% Encabezado de cada evidencia: número, título corto y puntos
+\newcommand{\evidencia}[3]{\subsection*{#1. #2 \hfill {\normalsize\mdseries (#3)}}}
+
+% Nombre de una prueba (con guiones bajos normales): se puede cortar en cada guion bajo y camelCase
+\directlua{dofile("prueba.lua")}
+\newcommand{\prueba}[1]{\texttt{\directlua{prueba("\luaescapestring{\detokenize{#1}}")}}}
+
+\newcommand{\repo}{https://github.com/Vethariel/Lab7-ingesoft2}
+
+\hypersetup{
+  pdftitle={Laboratorio 7. CI/CD con GitHub Actions},
+  pdfauthor={Daniel Alonso Gracia Pinto},
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue
+}
+
+\title{Laboratorio 7: CI/CD con GitHub Actions\\[0.35em]
+\large Integración continua, puertas de calidad y entrega continua\\[0.25em]
+\normalsize Ingeniería de Software II (2016702)}
+\author{Daniel Alonso Gracia Pinto}
+\date{Noviembre de 2026\\[0.35em]
+\normalsize Grupo 00}
+
+\begin{document}
+\maketitle
+\vspace{-1.6em}
+
+\begin{center}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{11.6cm}@{}}
+\hline
+Integrante & Daniel Alonso Gracia Pinto \\
+Grupo & 00 \\
+Proyecto & \texttt{Prestamos-00} \\
+Repositorio & \url{\repo} \\
+\hline
+\end{tabular}
+\end{center}
+
+Todas las capturas son de pantalla completa, de modo que en cada una se ven el nombre del repositorio, \texttt{Lab7-ingesoft2}, y la hora del sistema.
+
+\section*{Paso 0. Subir el proyecto a GitHub}
+
+El proyecto del Laboratorio 6, \texttt{Prestamos-00}, vivía en una subcarpeta del repositorio de ese laboratorio. Para este laboratorio se subió al repositorio público \texttt{Lab7-ingesoft2}, con el proyecto en la raíz, de modo que el pipeline trabaja allí, como en los ejemplos del enunciado. El historial se reescribió para conservar cada commit del proyecto, incluidos los de los ciclos de TDD, con su autor y su fecha originales. Sobre ese historial van los commits de este laboratorio: los workflows en \texttt{.github/workflows/} y el informe en \texttt{latex/} y \texttt{docs/}.
+
+El stack es Java con Maven, así que, frente a los ejemplos con Gradle del enunciado, cambian tres cosas. Primero, el comando de pruebas es \texttt{mvn -B verify}, el mismo que documenta el \texttt{README}: ejecuta las 23 pruebas, genera el reporte de JaCoCo y comprueba las metas de cobertura. Segundo, la caché de \texttt{actions/setup-java} es \texttt{maven}. Tercero, el JAR queda en \texttt{target/} en lugar de \texttt{build/libs/}.
+
+\evidencia{E1}{Repositorio público con el código, el README y el historial}{0,15}
+
+\captura{e1-a-repositorio.png}{E1 (a). El repositorio público \texttt{Lab7-ingesoft2} con el código y el \texttt{README}.}
+
+\captura{e1-b-historial.png}{E1 (b). El historial de commits del Laboratorio 6, incluidos los de cada ciclo de TDD.}
+
+\evidencia{E2}{Comando único de pruebas en local}{0,15}
+
+\captura{e2-mvn-verify.png}{E2. \texttt{mvn -B verify} en local: \texttt{Tests run: 23, Failures: 0}, \texttt{All coverage checks have been met.} y \texttt{BUILD SUCCESS}.}
+
+\section*{Parte 1. El primer pipeline de integración continua}
+
+\evidencia{E3}{Archivo \texttt{ci.yml}}{0,3}
+
+\captura{e3-ci-yml.png}{E3. \texttt{.github/workflows/ci.yml} en el repositorio.}
+
+\evidencia{E4}{Ejecución en verde con el log de las pruebas}{0,4}
+
+\captura{e4-ejecucion-verde.png}{E4. La ejecución en la pestaña Actions, con los pasos desplegados y el log de las pruebas.}
+
+\evidencia{E5}{Insignia en el README y diferencia entre local y runner}{0,3}
+
+\captura{e5-insignia.png}{E5. La insignia de CI en verde al inicio del \texttt{README}.}
+
+\textbf{¿Qué diferencia hay entre ejecutar las pruebas en el computador y en el runner?}
+
+% TODO(Parte 1c): respuesta.
+
+\section*{Parte 2. Romper y arreglar a través de un pull request}
+
+\evidencia{E6}{Pull request con el check en rojo}{0,25}
+
+\captura{e6-pr-rojo.png}{E6. Pull request de \texttt{feature/mutante} con el check en rojo.}
+
+\evidencia{E7}{Log de la prueba que falla}{0,2}
+
+\captura{e7-log-falla.png}{E7. Log del job con la prueba que falla, el valor esperado y el obtenido.}
+
+\evidencia{E8}{El mismo pull request en verde}{0,25}
+
+\captura{e8-pr-verde.png}{E8. El pull request con el check en verde después del commit de la corrección.}
+
+\section*{Parte 3. Puertas de calidad}
+
+\evidencia{E9}{Ruleset de \texttt{main}}{0,25}
+
+\captura{e9-ruleset.png}{E9. Ruleset activo con \emph{Require a pull request before merging} y \emph{Require status checks to pass}, con el check \texttt{test}.}
+
+\evidencia{E10}{GitHub bloquea el cambio}{0,2}
+
+\captura{e10-bloqueo.png}{E10. GitHub rechaza el push directo a \texttt{main}.}
+
+\evidencia{E11}{Umbral de cobertura}{0,2}
+
+\captura{e11-a-umbral.png}{E11 (a). Configuración del umbral de 80~\% de líneas en el \texttt{pom.xml}.}
+
+\captura{e11-b-rojo-99.png}{E11 (b). La ejecución en rojo cuando se exigió el 99~\%.}
+
+\evidencia{E12}{Artefacto \texttt{reportes}}{0,15}
+
+\captura{e12-a-artefacto.png}{E12 (a). El artefacto \texttt{reportes} en la página de la ejecución.}
+
+\captura{e12-b-reporte.png}{E12 (b). El reporte de cobertura abierto después de descargarlo.}
+
+\section*{Parte 4. Un pipeline de varias etapas}
+
+\evidencia{E13}{Grafo de la ejecución}{0,3}
+
+\captura{e13-grafo.png}{E13. Los dos jobs de la matriz y el job \texttt{build}, que depende de ellos.}
+
+\evidencia{E14}{Las dos variantes de la matriz en verde}{0,3}
+
+\captura{e14-a-java17.png}{E14 (a). \texttt{test (17)} en verde, con la versión en el log.}
+
+\captura{e14-b-java21.png}{E14 (b). \texttt{test (21)} en verde, con la versión en el log.}
+
+\evidencia{E15}{Artefacto \texttt{aplicacion}}{0,3}
+
+\captura{e15-aplicacion.png}{E15. El artefacto \texttt{aplicacion} descargable en la página de la ejecución.}
+
+\evidencia{E16}{Tiempos con y sin caché, y por qué \texttt{build} repite la preparación}{0,3}
+
+% TODO(Parte 4c): tabla de tiempos y explicación.
+
+% TODO(Parte 4d): respuesta.
+
+\section*{Parte 5. Secretos y entrega continua}
+
+\evidencia{E17}{Secreto y valor enmascarado}{0,2}
+
+\captura{e17-a-secreto.png}{E17 (a). El secreto creado: solo se ve su nombre.}
+
+\captura{e17-b-enmascarado.png}{E17 (b). El log con el valor reemplazado por \texttt{***}.}
+
+\evidencia{E18}{\texttt{release.yml} y su ejecución}{0,3}
+
+\captura{e18-a-release-yml.png}{E18 (a). \texttt{.github/workflows/release.yml}.}
+
+\captura{e18-b-release-verde.png}{E18 (b). Su ejecución en verde.}
+
+\evidencia{E19}{Release \texttt{v0.7.0}}{0,3}
+
+\captura{e19-release.png}{E19. La release \texttt{v0.7.0} con el JAR adjunto y las notas generadas.}
+
+\evidencia{E20}{¿Entrega continua o despliegue continuo?}{0,2}
+
+% TODO(Parte 5d): respuesta.
+
+\section*{Entrega}
+
+El repositorio \url{\repo} contiene el proyecto, sus workflows en \texttt{.github/workflows/} y todas las ejecuciones en la pestaña Actions.
+
+\end{document}
