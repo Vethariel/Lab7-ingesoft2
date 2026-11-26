@@ -8,7 +8,7 @@ public class CalculadoraMulta {
 
     static final int SIN_MULTA = 0;
     static final int MULTA_POR_DIA = 2_000;
-    static final int MULTA_MAXIMA = 60_000;
+    static final int MULTA_MAXIMA = 50_000;
     /** Los monitores pagan la mitad: la multa se divide entre este valor, después del tope. */
     static final int DIVISOR_MONITOR = 2;
 
